@@ -1,0 +1,42 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Dice Roll Home</title>
+
+
+    <link rel="stylesheet" href="/static/css/resets.css">
+    <link rel="stylesheet" href="/static/css/layout.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+<div class="page-wrapper">
+    <div class="container grow">
+        <div class="row justify-center">
+            <div class="column gap-15 justify-center">
+                <h1>Guess a number!</h1>
+                <ul>
+                    <li><a href="/roll-dice/1">1</a></li>
+                    <li><a href="/roll-dice/2">2</a></li>
+                    <li><a href="/roll-dice/3">3</a></li>
+                    <li><a href="/roll-dice/4">4</a></li>
+                    <li><a href="/roll-dice/5">5</a></li>
+                    <li><a href="/roll-dice/6">6</a></li>
+                </ul>
+                <div th:if="${guess}">
+                    <h2>You guessed [[${guess}]]</h2>
+                    <h2>Here are the rolls:</h2>
+                    <ul th:each="roll : ${rolls}">
+                        <li>[[${roll}]]</li>
+                    </ul>
+                    <h2>You guessed [[${count}]] out of 6 rolls correctly!</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

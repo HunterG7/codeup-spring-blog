@@ -1,0 +1,27 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="/partials.html :: head">
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Home</title>
+</head>
+<body>
+<div class="page-wrapper">
+    <nav th:replace="/partials.html :: navbar"></nav>
+
+    <div class="container">
+        <div class="row justify-center">
+            <h1>Posts</h1>
+        </div>
+        <div class="row">
+            <div th:each="post : ${posts}" class="column">
+                <h3>[[${post.title}]]</h3>
+                <p>[[${post.body}]]</p>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

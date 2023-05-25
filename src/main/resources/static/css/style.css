@@ -1,0 +1,18 @@
+:root {
+
+}
+
+nav {
+    box-shadow: 0 0 5px rgba(0, 0, 0, 25%);
+    padding: 1rem 0;
+}
+.nav-row a{
+    padding: 4px 8px;
+    border-radius: 5px;
+}
+.nav-row a:hover {
+    background-color: rgba(0, 0, 0, .05);
+}
+.nav-row {
+    gap: 1rem;
+}
