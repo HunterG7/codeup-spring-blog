@@ -1,6 +1,6 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-<head th:replace="/partials.html :: head">
+<head th:replace="/partials/head.html :: head(title='Home')">
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -9,16 +9,21 @@
 </head>
 <body>
 <div class="page-wrapper">
-    <nav th:replace="/partials.html :: navbar"></nav>
+    <nav th:replace="/partials/navbar.html :: navbar"></nav>
 
-    <div class="container">
-        <div class="row justify-center">
-            <h1>Posts</h1>
+    <div class="container posts-container">
+        <div class="row align-bottom no-padding posts-title-row">
+            <form action="/posts" method="post">
+                <input type="text" placeholder="Search for a post..." name="searchInput" id="search-input">
+                <input type="submit" id="search-btn" value="Search">
+            </form>
         </div>
-        <div class="row">
-            <div th:each="post : ${posts}" class="column">
-                <h3>[[${post.title}]]</h3>
-                <p>[[${post.body}]]</p>
+        <div class="row no-padding post-cards-row">
+            <div th:each="post : ${posts}" class="column post-card">
+                <div class="row justify-center post-title-row">
+                    <a th:href="@{posts/{id}(id=${post.id})}"><h3>[[${post.title}]]</h3></a>
+                </div>
+                <p>[[${post.description}]]</p>
             </div>
         </div>
     </div>
