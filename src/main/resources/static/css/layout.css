@@ -87,6 +87,9 @@
 .row.grow {
     flex: 1 0 0;
 }
+.row.shrink {
+    flex: 0 1 auto;
+}
 
 /*
     The "column" is a container element that vertically separates its

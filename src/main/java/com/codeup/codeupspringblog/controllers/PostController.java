@@ -1,43 +1,58 @@
 package com.codeup.codeupspringblog.controllers;
 
 import com.codeup.codeupspringblog.models.Post;
+import com.codeup.codeupspringblog.models.User;
+import com.codeup.codeupspringblog.repositories.PostRepository;
+import com.codeup.codeupspringblog.repositories.UserRepository;
+import jakarta.websocket.server.PathParam;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Controller
 public class PostController {
+    private final PostRepository postsDao;
+    private final UserRepository usersDao;
+    public PostController(PostRepository postsDao, UserRepository usersDao){
+        this.postsDao = postsDao;
+        this.usersDao = usersDao;
+    }
+
     @GetMapping("/posts")
     public String posts(Model model){
-        Post post1 = new Post("Hunter's Post", "This is the body of Hunter's post.");
-        Post post2 = new Post("Dylan's Post", "This is the body of Dylan's post.");
-        Post post3 = new Post("Ryan's Post", "This is the body of Ryan's post.");
-        ArrayList<Post> posts = new ArrayList<>(List.of(post1, post2, post3));
-
-        model.addAttribute("posts", posts);
+        model.addAttribute("posts", postsDao.findAll());
         return "posts/index";
     }
 
-    @GetMapping("/posts/{id}")
-    public String postsFromId(@PathVariable int id, Model model){
-        Post post = new Post("Hunter's Post", "This is the body of Hunter's post with an id of " + id + ".");
-
-        model.addAttribute("post", post);
-        return "posts/show";
+    // post mapping for search
+    @PostMapping("/posts")
+    public String filterPostsBySearch(@RequestParam(name = "searchInput") String search, Model model){
+        model.addAttribute("posts", postsDao.searchByTitleLikeOrDescriptionLike(search));
+        return "posts/index";
     }
 
-    @GetMapping(path = "/posts/create")
-    @ResponseBody
-    public String createPosts(){
-        return "view form for creating a post";
+
+    @GetMapping("/posts/create")
+    public String postsCreateForm(){
+        return "posts/create";
     }
 
     @PostMapping("/posts/create")
-    @ResponseBody
-    public String postsCreateForm(){
-        return "create a new post";
+    public String createPosts(@RequestParam(name = "title") String title, @RequestParam(name = "description") String desc) {
+        User user = new User("test3", "test3@test.com", "password");
+        usersDao.save(user);
+        Post post = new Post(title, desc, user);
+        postsDao.save(post);
+        return "redirect:/posts";
     }
+
+    @GetMapping("/posts/{id}")
+    public String viewPost(@PathVariable long id, Model model){
+        model.addAttribute("post", postsDao.findById(id));
+        System.out.println(id);
+        return "posts/showPost";
+    }
+
+
+
 }
