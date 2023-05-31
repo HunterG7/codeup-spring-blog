@@ -9,6 +9,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 @Controller
 public class PostController {
     private final PostRepository postsDao;
@@ -33,23 +37,35 @@ public class PostController {
 
 
     @GetMapping("/posts/create")
-    public String postsCreateForm(){
+    public String postsCreateForm(Model model){
+        model.addAttribute("post", new Post());
         return "posts/create";
     }
 
+    protected User user1 = new User("hunterg7", "hunter@gmail.com", "123");
+    protected User user2 = new User("jim1234", "jim@gmail.com", "123");
+    protected User user3 = new User("test", "test@test.com", "123");
+    protected List<User> users = new ArrayList<>(List.of(user1, user2, user3));
+
     @PostMapping("/posts/create")
-    public String createPosts(@RequestParam(name = "title") String title, @RequestParam(name = "description") String desc) {
-        User user = new User("test3", "test3@test.com", "password");
-        usersDao.save(user);
-        Post post = new Post(title, desc, user);
+    public String createPosts(@ModelAttribute Post post) {
+        Random random = new Random();
+        int randomIndex = random.nextInt(users.size());
+        User user = users.get(randomIndex);
+        System.out.println(usersDao.findByUsername(user));
+        if (!usersDao.findByUsername(user)) {
+            usersDao.save(user);
+        }
+        post.setUser(user);
         postsDao.save(post);
+
         return "redirect:/posts";
     }
 
     @GetMapping("/posts/{id}")
     public String viewPost(@PathVariable long id, Model model){
+        model.addAttribute("user", usersDao.findById(id));
         model.addAttribute("post", postsDao.findById(id));
-        System.out.println(id);
         return "posts/showPost";
     }
 
