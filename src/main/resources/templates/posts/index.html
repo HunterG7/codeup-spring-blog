@@ -13,11 +13,12 @@
             </form>
         </div>
         <div class="row no-padding post-cards-row">
-            <div th:each="post : ${posts}" class="column post-card">
-                <div class="row justify-center post-title-row">
+            <div th:each="post : ${posts}" class="column grow post-card">
+                <div class="row no-padding post-title-row">
                     <h3><a th:href="@{posts/{id}(id=${post.id})}">[[${post.title}]]</a></h3>
                 </div>
                 <p>[[${post.description}]]</p>
+                <div class="row post-owner">[[${post.user.username}]]</div>
             </div>
         </div>
     </div>

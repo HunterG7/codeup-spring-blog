@@ -8,10 +8,10 @@
     <div class="container">
         <div class="row justify-center">
             <div class="column">
-                <h1 th:text="${post.title}"></h1>
-                <p th:text="${post.description}"></p>
-                <p th:text="${user.username}"></p>
-                <p th:text="${user.email}"></p>
+                <h1>[[${post.title}]]</h1>
+                <div class="body-wrapper">
+                    <p>[[${post.description}]]</p>
+                </div>
             </div>
         </div>
     </div>

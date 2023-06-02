@@ -4,12 +4,10 @@ import com.codeup.codeupspringblog.models.Post;
 import com.codeup.codeupspringblog.models.User;
 import com.codeup.codeupspringblog.repositories.PostRepository;
 import com.codeup.codeupspringblog.repositories.UserRepository;
-import jakarta.websocket.server.PathParam;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -22,12 +20,14 @@ public class PostController {
         this.usersDao = usersDao;
     }
 
+    ///////////////////////
+    // DISPLAY ALL POSTS //
+    ///////////////////////
     @GetMapping("/posts")
     public String posts(Model model){
         model.addAttribute("posts", postsDao.findAll());
         return "posts/index";
     }
-
     // post mapping for search
     @PostMapping("/posts")
     public String filterPostsBySearch(@RequestParam(name = "searchInput") String search, Model model){
@@ -35,40 +35,59 @@ public class PostController {
         return "posts/index";
     }
 
-
+    //////////////////
+    // CREATE POSTS //
+    //////////////////
     @GetMapping("/posts/create")
     public String postsCreateForm(Model model){
         model.addAttribute("post", new Post());
         return "posts/create";
     }
-
-    protected User user1 = new User("hunterg7", "hunter@gmail.com", "123");
-    protected User user2 = new User("jim1234", "jim@gmail.com", "123");
-    protected User user3 = new User("test", "test@test.com", "123");
-    protected List<User> users = new ArrayList<>(List.of(user1, user2, user3));
-
     @PostMapping("/posts/create")
     public String createPosts(@ModelAttribute Post post) {
+        List<User> users = usersDao.findAll();
         Random random = new Random();
         int randomIndex = random.nextInt(users.size());
-        User user = users.get(randomIndex);
-        System.out.println(usersDao.findByUsername(user));
-        if (!usersDao.findByUsername(user)) {
-            usersDao.save(user);
-        }
-        post.setUser(user);
+        post.setUser(users.get(randomIndex));
         postsDao.save(post);
 
         return "redirect:/posts";
     }
 
+    //////////////////////
+    // DISPLAY ONE POST //
+    //////////////////////
     @GetMapping("/posts/{id}")
     public String viewPost(@PathVariable long id, Model model){
-        model.addAttribute("user", usersDao.findById(id));
-        model.addAttribute("post", postsDao.findById(id));
+        Post post = postsDao.findById(id);
+        User user = usersDao.findById(post.getUser().getId());
+        model.addAttribute("user", user);
+        model.addAttribute("post", post);
         return "posts/showPost";
     }
 
+    ////////////////
+    // EDIT POSTS //
+    ////////////////
+    @GetMapping("/posts/{id}/edit")
+    public String viewEditForm(@PathVariable long id, Model model){
+        Post post = postsDao.findById(id);
+        if (post == null){
+            return "redirect:/posts";
+        }
 
+        model.addAttribute("post", post);
+        return "posts/edit";
+    }
+    @PostMapping("/posts/{id}/edit")
+    public String submitEditForm(@ModelAttribute Post post, @PathVariable long id){
+        Post oldPost = postsDao.findById(id);
+        User user = oldPost.getUser();
+        post.setUser(user);
+        post.setId(id);
+        postsDao.save(post);
+
+        return "redirect:/posts";
+    }
 
 }
