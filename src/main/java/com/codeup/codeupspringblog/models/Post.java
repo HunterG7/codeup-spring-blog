@@ -8,14 +8,12 @@ public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
     @Column(nullable = false, length = 100)
     private String title;
-
     @Column(nullable = false)
     private String description;
-
-    @OneToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
 
@@ -29,6 +27,7 @@ public class Post {
         this.description = description;
         this.user = user;
     }
+
 
     public String getTitle() {
         return title;
@@ -47,5 +46,11 @@ public class Post {
     }
     public void setId(long id) {
         this.id = id;
+    }
+    public User getUser() {
+        return user;
+    }
+    public void setUser(User user) {
+        this.user = user;
     }
 }

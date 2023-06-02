@@ -1,14 +1,14 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-<head th:replace="/partials/head.html :: head(title='Spring Blog - Create a Post')"></head>
+<head th:replace="/partials/head.html :: head(title='Spring Blog - Edit a Post')"></head>
 <body>
 <div class="page-wrapper">
     <nav th:replace="/partials/navbar.html :: navbar"></nav>
     <section class="container justify-center grow">
         <div class="row justify-center">
-            <form class="column align-bottom justify-center gap-30 create-post-form" th:action="@{/posts/create}" th:method="post" th:object="${post}">
+            <form class="column align-bottom justify-center gap-30 create-post-form" th:action=" @{/posts/{id}/edit(id=${post.id})}" th:method="post" th:object="${post}">
                 <div class="page-title">
-                    <h1>Create A Post</h1>
+                    <h1>Edit A Post</h1>
                 </div>
 
                 <div class="column">
@@ -19,7 +19,7 @@
                     <label id="description-label" for="description">Description</label>
                     <textarea th:field="*{description}" id="description" cols="30" rows="10"></textarea>
                 </div>
-                <input id="submit-btn" type="submit" value="Create">
+                <input id="submit-btn" type="submit" value="Save Changes">
             </form>
         </div>
     </section>

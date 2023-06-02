@@ -1,12 +1,6 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-<head th:replace="/partials/head.html :: head(title='Home')">
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Home</title>
-</head>
+<head th:replace="/partials/head.html :: head(title='Spring Blog - Home')"></head>
 <body>
 <div class="page-wrapper">
     <nav th:replace="/partials/navbar.html :: navbar"></nav>
@@ -19,11 +13,12 @@
             </form>
         </div>
         <div class="row no-padding post-cards-row">
-            <div th:each="post : ${posts}" class="column post-card">
-                <div class="row justify-center post-title-row">
-                    <a th:href="@{posts/{id}(id=${post.id})}"><h3>[[${post.title}]]</h3></a>
+            <div th:each="post : ${posts}" class="column grow post-card">
+                <div class="row no-padding post-title-row">
+                    <h3><a th:href="@{posts/{id}(id=${post.id})}">[[${post.title}]]</a></h3>
                 </div>
                 <p>[[${post.description}]]</p>
+                <div class="row post-owner">[[${post.user.username}]]</div>
             </div>
         </div>
     </div>
