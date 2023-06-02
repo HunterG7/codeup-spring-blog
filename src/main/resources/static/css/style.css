@@ -33,7 +33,7 @@ nav h1 {
     background-color: #fff;
     box-shadow: 0 0 5px rgba(0, 0, 0, 25%);
     border-radius: 5px;
-    padding: 1rem;
+    padding: 2rem;
     gap: 1rem;
     min-width: 49%;
     max-width: 49%;
@@ -114,7 +114,7 @@ nav h1 {
     letter-spacing: 1px;
     margin-bottom: .5rem;
 }
-#submit-btn {
+.submit-btn {
     width: fit-content;
     border: 1px solid transparent;
     border-radius: 5px;
@@ -126,7 +126,7 @@ nav h1 {
     cursor: pointer;
     box-shadow: 0 0 5px rgba(0, 0, 0, 25%);
 }
-#submit-btn:hover {
+.submit-btn:hover {
     transform: scale(1.1);
     transition: all .3s ease;
 }
@@ -159,5 +159,21 @@ nav h1 {
     font-weight: 900;
     color: var(--primary);
     letter-spacing: 2px;
+}
+.single-post-card {
+    background-color: #fff;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 25%);
+    border-radius: 5px;
+    gap: 1rem;
+    height: 40vh;
+    position: relative;
+    padding: 2rem 4rem;
+}
+.post-card p {
+    max-height: 4.5rem;
+    overflow: scroll;
+}
+.submit-btn:visited {
+    color: var(--secondary);
 }
 
