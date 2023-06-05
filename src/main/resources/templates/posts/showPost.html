@@ -1,9 +1,9 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-<head th:replace="/partials/head.html :: head(title='Spring Blog - Post')"></head>
+<head th:replace="~{/partials/head.html :: head(title='Spring Blog - Post')}"></head>
 <body>
 <div class="page-wrapper">
-    <div th:replace="/partials/navbar.html :: navbar"></div>
+    <div th:replace="~{/partials/navbar.html :: navbar}"></div>
     <div class="container justify-center grow">
         <div class="row justify-center">
             <div class="column grow single-post-card">
@@ -20,6 +20,11 @@
             </div>
             <div class="column shrink">
                 <a class="submit-btn" th:href="@{/posts/{id}/edit(id=${post.id})}">Edit</a>
+            </div>
+            <div class="column shrink">
+                <form th:action="@{/posts/{id}/delete(id=${post.id})}" method="post">
+                    <input type="submit" class="submit-btn" value="Delete">
+                </form>
             </div>
         </div>
     </div>

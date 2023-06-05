@@ -1,10 +1,27 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-<head th:replace="/partials/head.html :: head(title='Spring Blog - Home')"></head>
+<head th:replace="~{/partials/head.html :: head(title='Spring Blog - Register')}"></head>
 <body>
 <div class="page-wrapper">
-    <nav th:replace="/partials/navbar.html :: navbar"></nav>
-    <h1>REGISTER PAGE</h1>
+    <nav th:replace="~{/partials/navbar.html :: navbar}"></nav>
+    <section class="container justify-center grow">
+        <div class="row justify-center grow">
+            <div class="column">
+                <h1>Register Here</h1>
+                <form th:action="@{/register}" method="post">
+                    <label for="username">Username: </label>
+                    <input type="text" id="username" name="username" placeholder="Username">
+                    <label for="email">Email: </label>
+                    <input type="email" id="email" name="email" placeholder="Email">
+                    <label for="password">Password: </label>
+                    <input type="password" id="password" name="password" placeholder="Password">
+                    <label for="confirmPassword">Confirm Password: </label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password">
+                    <input class="submit-btn" type="submit" value="Register">
+                </form>
+            </div>
+        </div>
+    </section>
 </div>
 
 </body>

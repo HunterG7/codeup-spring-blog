@@ -1,9 +1,9 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-<head th:replace="/partials/head.html :: head(title='Spring Blog - Create a Post')"></head>
+<head th:replace="~{/partials/head.html :: head(title='Spring Blog - Create a Post')}"></head>
 <body>
 <div class="page-wrapper">
-    <nav th:replace="/partials/navbar.html :: navbar"></nav>
+    <nav th:replace="~{/partials/navbar.html :: navbar}"></nav>
     <section class="container justify-center grow">
         <div class="row justify-center">
             <form class="column align-bottom justify-center gap-30 create-post-form" th:action="@{/posts/create}" th:method="post" th:object="${post}">

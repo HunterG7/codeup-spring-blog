@@ -1,9 +1,9 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-<head th:replace="/partials/head.html :: head(title='Spring Blog - Home')"></head>
+<head th:replace="~{/partials/head.html :: head(title='Spring Blog - Home')}"></head>
 <body>
 <div class="page-wrapper">
-    <nav th:replace="/partials/navbar.html :: navbar"></nav>
+    <nav th:replace="~{/partials/navbar.html :: navbar}"></nav>
 
     <div class="container posts-container">
         <div class="row align-bottom no-padding posts-title-row">

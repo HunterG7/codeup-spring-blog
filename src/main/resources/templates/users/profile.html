@@ -5,6 +5,10 @@
 <div class="page-wrapper">
     <nav th:replace="/partials/navbar.html :: navbar"></nav>
     <h1>PROFILE PAGE</h1>
+    <h3>Hello, [[${user.username}]]!</h3>
+    <form th:action="@{/logout}" method="post">
+        <input type="submit" value="Logout">
+    </form>
 </div>
 
 </body>
