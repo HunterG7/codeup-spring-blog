@@ -1,17 +1,30 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-<head th:replace="/partials/head.html :: head(title='Spring Blog - Post')"></head>
+<head th:replace="~{/partials/head.html :: head(title='Spring Blog - Post')}"></head>
 <body>
 <div class="page-wrapper">
-    <div th:replace="/partials/navbar.html :: navbar"></div>
-
-    <div class="container">
+    <div th:replace="~{/partials/navbar.html :: navbar}"></div>
+    <div class="container justify-center grow">
         <div class="row justify-center">
-            <div class="column">
-                <h1>[[${post.title}]]</h1>
-                <div class="body-wrapper">
-                    <p>[[${post.description}]]</p>
+            <div class="column grow single-post-card">
+                <div class="row no-padding post-title-row">
+                    <h3>[[${post.title}]]</h3>
                 </div>
+                <p>[[${post.description}]]</p>
+                <div class="row post-owner">[[${post.user.username}]]</div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="column shrink">
+                <a class="submit-btn" th:href="@{/posts}">Back to Posts</a>
+            </div>
+            <div class="column shrink">
+                <a class="submit-btn" th:href="@{/posts/{id}/edit(id=${post.id})}">Edit</a>
+            </div>
+            <div class="column shrink">
+                <form th:action="@{/posts/{id}/delete(id=${post.id})}" method="post">
+                    <input type="submit" class="submit-btn" value="Delete">
+                </form>
             </div>
         </div>
     </div>

@@ -1,6 +1,6 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-<head th:replace="/partials/head.html :: head(title='Spring Blog - Edit a Post')"></head>
+<head th:replace="~{/partials/head.html :: head(title='Spring Blog - Edit a Post')}"></head>
 <body>
 <div class="page-wrapper">
     <nav th:replace="/partials/navbar.html :: navbar"></nav>
@@ -19,7 +19,7 @@
                     <label id="description-label" for="description">Description</label>
                     <textarea th:field="*{description}" id="description" cols="30" rows="10"></textarea>
                 </div>
-                <input id="submit-btn" type="submit" value="Save Changes">
+                <input class="submit-btn" type="submit" value="Save Changes">
             </form>
         </div>
     </section>

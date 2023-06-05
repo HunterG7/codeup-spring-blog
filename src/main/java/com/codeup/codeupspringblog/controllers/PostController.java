@@ -4,6 +4,7 @@ import com.codeup.codeupspringblog.models.Post;
 import com.codeup.codeupspringblog.models.User;
 import com.codeup.codeupspringblog.repositories.PostRepository;
 import com.codeup.codeupspringblog.repositories.UserRepository;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -35,9 +36,9 @@ public class PostController {
         return "posts/index";
     }
 
-    //////////////////
-    // CREATE POSTS //
-    //////////////////
+    /////////////////
+    // CREATE POST //
+    /////////////////
     @GetMapping("/posts/create")
     public String postsCreateForm(Model model){
         model.addAttribute("post", new Post());
@@ -46,9 +47,10 @@ public class PostController {
     @PostMapping("/posts/create")
     public String createPosts(@ModelAttribute Post post) {
         List<User> users = usersDao.findAll();
-        Random random = new Random();
-        int randomIndex = random.nextInt(users.size());
-        post.setUser(users.get(randomIndex));
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        long userId = user.getId();
+        user = usersDao.findById(userId);
+        post.setUser(user);
         postsDao.save(post);
 
         return "redirect:/posts";
@@ -66,6 +68,20 @@ public class PostController {
         return "posts/showPost";
     }
 
+    //////////////////
+    // DELETE POSTS //
+    //////////////////
+    @PostMapping("/posts/{id}/delete")
+    public String deletePost(@PathVariable long id){
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Post post = postsDao.findById(id);
+
+        if (user.getId() == post.getUser().getId()) {
+            postsDao.deleteById(id);
+        }
+        return "redirect:/posts";
+    }
+
     ////////////////
     // EDIT POSTS //
     ////////////////
@@ -81,11 +97,15 @@ public class PostController {
     }
     @PostMapping("/posts/{id}/edit")
     public String submitEditForm(@ModelAttribute Post post, @PathVariable long id){
+        User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Post oldPost = postsDao.findById(id);
         User user = oldPost.getUser();
-        post.setUser(user);
-        post.setId(id);
-        postsDao.save(post);
+
+        if (currentUser.getId() == user.getId()){
+            post.setUser(user);
+            post.setId(id);
+            postsDao.save(post);
+        }
 
         return "redirect:/posts";
     }
